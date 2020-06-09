@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday</title>
+<link rel="stylesheet" type="text/css" href="../css/login.css" type="text/css" />
+<link rel="stylesheet" href="../css/bubbles.css" type="text/css" />
+<link rel="stylesheet" href="../css/switch.css">
+<link rel="stylesheet" href="../css/birthday-cake.css">
+<style>
+	.loginHtml{
+		display:block;
+	}
+	.lcd{
+		overflow: hidden;
+	}
+</style>
+</head>
+<body>
+<div class="htmleaf-container">
+	<div class="wrapper">
+		<ul class="bg-bubbles">
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+		</ul>
+		<div class="container">
+			<div class="box" style='margin:0 auto;'>
+				<!-- <div class="switch-container"></div> -->
+				<div class="joy-con-left">
+				  <div class="bumper-left"></div>
+				  <div class="minus-btn"></div>
+				  <div class="analog-left"></div>
+				  <div class="dpad-container-left">
+					<div class="dpad-up"></div>
+					<div class="dpad-right"></div>
+					<div class="dpad-down"></div>
+					<div class="dpad-left"></div>
+				  </div>
+				  <div class="square-btn"></div>
+				</div>
+				<div class="joy-con-right">
+				  <div class="bumper-right"></div>
+				  <div class="plus-btn"></div>
+				  <div class="dpad-container-right">
+					<div class="dpad-x"></div>
+					<div class="dpad-a"></div>
+					<div class="dpad-b"></div>
+					<div class="dpad-y"></div>
+				  </div>
+				  <div class="analog-right"></div>
+				  <div class="home-btn"></div>
+				</div>
+				<div class="screen-outer">
+				  <div class="screen-inner"></div>
+				  <div class="reflector"></div>
+				  <div class="lcd">
+					<iframe src="./cake.html" id='FrameID' class='cake' style='width:100%;height:100%;z-index: inherit;' frameborder="0"></iframe>
+					<div class='switchScreen'>
+						<div class="logo-left">
+							<div class="dot-left"></div>
+						</div>
+						<div class="logo-right">
+							<div class="dot-right"></div>
+						</div>
+					</div>
+				  </div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<audio id='music' src="../music/1.mp3" loop='loop'></audio>
+
+<script src="../js/jquery-2.1.1.min.js" type="text/javascript"></script>
+<script src="../js/login.js" type="text/javascript"></script>
+<script>
+	var btn = document.getElementsByClassName('dpad-y')[0];
+	var music = document.getElementById('music');
+	var click = null;
+	var status = 'open';
+	$('.cake').css('opacity','0')
+	var goal = null;
+	btn.onclick = function(){
+		$('.switchScreen').css('display','none')
+		if(goal!=='y'){
+			document.getElementById('FrameID').src='cake.html';
+			goal = 'y';
+		}
+		$('.cake').animate({'opacity': '1'})
+	}
+
+	$('.dpad-x').click(function(){
+
+	})
+
+	$('.dpad-a').click(function(){
+		console.log(status)
+		if(status==='open'){
+			if(click===0){
+			music.load()
+			}
+			if(music.paused){
+				music.play()
+				click++
+			}else{
+				music.pause()
+				click++
+			}
+			goal = 'a'
+		}else{
+			return false;
+		}
+		
+	})
+
+	$('.dpad-b').click(function(){
+
+	})
+	
+	$('.home-btn').click(function(){
+		console.log(status)
+		goal = 'shutDown';
+		click = 0
+		music.pause()
+		if(status==='open'){
+			status = 'close'
+			$('.cake').css('opacity','0')
+			$('.lcd').fadeOut(10,function(){
+				$('.switchScreen').fadeOut(10,function(){
+					
+				})
+			})
+			return
+		}
+		if(status==='close'){
+			status = 'open'
+			$('.lcd').fadeIn(10,function(){
+				$('.switchScreen').fadeIn(10,function(){
+
+				})
+			})
+			return
+		}
+	})
+</script>
+</body>
+</html>
